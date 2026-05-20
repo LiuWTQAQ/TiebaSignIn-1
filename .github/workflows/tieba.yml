@@ -18,7 +18,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '8'
-          cache: 'maven'  # 使用官方推荐的 Maven 依赖缓存
+          cache: 'maven'
 
       - name: Build and execute
         env:
@@ -29,16 +29,12 @@ jobs:
             -Dexec.mainClass="top.srcrs.Run" \
             -Dexec.args="$BDUSS $SCKEY"
 
-# 永久保活：防止GitHub 60天休眠（纯原生，无第三方调用）
-  keepalive:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Keep repo active
+      # ↓↓↓↓↓ 保活代码（自动空提交，永不休眠）↓↓↓↓↓
+      - name: Keep repo alive (auto empty commit)
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git commit --allow-empty -m "Keepalive: auto-generated commit"
+          git commit --allow-empty -m "Keepalive"
+          git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

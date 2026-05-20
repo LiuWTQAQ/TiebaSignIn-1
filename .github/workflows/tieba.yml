@@ -28,3 +28,9 @@ jobs:
           mvn -B compile exec:java \
             -Dexec.mainClass="top.srcrs.Run" \
             -Dexec.args="$BDUSS $SCKEY"
+
+
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: gautamkrishnar/keepalive-workflow@2.0.2
